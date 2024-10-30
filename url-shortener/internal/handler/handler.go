@@ -9,12 +9,16 @@ import (
 	"example.com/url-shortener/internal/storage"
 )
 
+var store *storage.URLStore
+
+func SetStore(s *storage.URLStore) {
+	store = s
+}
+
 func RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/shorten", ShortenURL)
 	mux.HandleFunc("/u/", RedirectURL)
 }
-
-var store = storage.NewURLStore()
 
 func ShortenURL(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
